@@ -1,4 +1,4 @@
-import 'package:location/location.dart';import 'package:location/location.dart';
+import 'package:location/location.dart';
 
 class LocationService {
   Location location = Location();
