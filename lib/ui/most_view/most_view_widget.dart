@@ -51,46 +51,7 @@ class _MostViewState extends State<MostView> {
       setState(() {
         _isLoading = false;
       });
-      // Handle error
     }
-  }
-
-  Widget buildLocationRow(String label, double? latitude, double? longitude) {
-    String valueText = latitude != null && longitude != null
-        ? 'Latitude: $latitude, \n Longitude: $longitude'
-        : 'Location data unavailable';
-
-    return Column(
-      children: <Widget>[
-        Row(
-          children: <Widget>[
-            Text(
-              label,
-              style: TextStyle(fontSize: 16),
-              textAlign: TextAlign.center,
-            ),
-          ],
-        ),
-        Row(
-          children: <Widget>[
-            Text(
-              latitude != null ? 'Latitude: $latitude' : 'Latitude unavailable',
-              style: TextStyle(fontSize: 16),
-              textAlign: TextAlign.center,
-            ),
-          ],
-        ),
-        Row(
-          children: <Widget>[
-            Text(
-              longitude != null ? 'Longitude: $longitude' : 'Longitude unavailable',
-              style: TextStyle(fontSize: 16),
-              textAlign: TextAlign.center,
-            ),
-          ],
-        ),
-      ],
-    );
   }
 
   @override
@@ -106,7 +67,7 @@ class _MostViewState extends State<MostView> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-              buildLocationRow(
+              _locationService.buildLocationRow(
                 "Current user location",
                 _locationService.locationData?.latitude,
                 _locationService.locationData?.longitude,

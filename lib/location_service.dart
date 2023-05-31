@@ -1,4 +1,5 @@
 import 'package:location/location.dart';
+import 'package:flutter/material.dart';
 
 class LocationService {
   Location location = Location();
@@ -37,5 +38,43 @@ class LocationService {
     location.onLocationChanged.listen((LocationData currentLocation) {
       _locationData = currentLocation;
     });
+  }
+
+  Widget buildLocationRow(String label, double? latitude, double? longitude) {
+    String valueText = latitude != null && longitude != null
+        ? 'Latitude: $latitude, \n Longitude: $longitude'
+        : 'Location data unavailable';
+
+    return Column(
+      children: <Widget>[
+        Row(
+          children: <Widget>[
+            Text(
+              label,
+              style: TextStyle(fontSize: 16),
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
+        Row(
+          children: <Widget>[
+            Text(
+              latitude != null ? 'Latitude: $latitude' : 'Latitude unavailable',
+              style: TextStyle(fontSize: 16),
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
+        Row(
+          children: <Widget>[
+            Text(
+              longitude != null ? 'Longitude: $longitude' : 'Longitude unavailable',
+              style: TextStyle(fontSize: 16),
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
+      ],
+    );
   }
 }
