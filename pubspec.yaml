@@ -15,6 +15,7 @@ dependencies:
   sqflite:
   path:
   location:
+  http:
   
 
 dev_dependencies:

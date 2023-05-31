@@ -2,42 +2,40 @@ import 'package:location/location.dart';
 
 class LocationService {
   Location location = Location();
-  LocationData _locationData = LocationData.fromMap({
-    "latitude": 0.0,
-    "longitude": 0.0,
-  });
+  LocationData? _locationData;
 
+  LocationData? get locationData => _locationData;
 
-  LocationData get locationData => _locationData;
-    bool _serviceEnabled = false;
-    PermissionStatus? _permissionGranted;
+  bool _serviceEnabled = false;
+  PermissionStatus? _permissionGranted;
 
-    Future<void> checkPermissions() async {
+  Future<LocationData?> checkPermissions() async {
     _serviceEnabled = await location.serviceEnabled();
     if (!_serviceEnabled) {
-        _serviceEnabled = await location.requestService();
-        if (!_serviceEnabled) {
+      _serviceEnabled = await location.requestService();
+      if (!_serviceEnabled) {
         // Location service is still not enabled, handle accordingly.
-        return;
-        }
+        return null;
+      }
     }
 
     _permissionGranted = await location.hasPermission();
     if (_permissionGranted == PermissionStatus.denied) {
-        _permissionGranted = await location.requestPermission();
-        if (_permissionGranted != PermissionStatus.granted) {
+      _permissionGranted = await location.requestPermission();
+      if (_permissionGranted != PermissionStatus.granted) {
         // Permission is still denied, handle accordingly.
-        return;
-        }
+        return null;
+      }
     }
 
     // Permissions have been granted, start tracking location.
-    startLocationTracking();
-    }
+    _locationData = await location.getLocation();
+    return _locationData;
+  }
 
-    void startLocationTracking() {
-        location.onLocationChanged.listen((LocationData currentLocation) {
-            _locationData = currentLocation;
-        });
-    }
+  void startLocationTracking() {
+    location.onLocationChanged.listen((LocationData currentLocation) {
+      _locationData = currentLocation;
+    });
+  }
 }
