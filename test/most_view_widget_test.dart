@@ -6,15 +6,17 @@ import '../lib/model/article.dart';
 
 class ArticleService {
   final http.Client httpClient;
-
   ArticleService(this.httpClient);
 
   static const String _apiKey = '5Cj5FjH9FGDx4nGawAmiu6XTfUvmK0rN';
-  static const String _secondBaseUrl = 'https://api.nytimes.com/svc/search/v2/articlesearch.json';
+  static const String _baseUrl = 'https://api.nytimes.com/svc/mostpopular/v2/viewed/';
 
-  Future<List<Article>> searchArticles({int page = 1, String? query}) async {
-    int lastId = 0;
-    final url = Uri.parse('$_secondBaseUrl?q=$query&page=$page&api-key=$_apiKey');
+  Future<List<Article>> fetchArticles({
+    int page = 1,
+    int pageSize = 30,
+    int lastId = 0,
+  }) async {
+    final url = Uri.parse('$_baseUrl$pageSize.json?api-key=$_apiKey');
     final response = await httpClient.get(url);
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
@@ -29,26 +31,23 @@ class ArticleService {
       }
       return articles;
     } else {
-      throw Exception('Failed to search articles');
+      throw Exception('Failed to fetch articles');
     }
   }
 }
 
 void main() {
-  group('ArticleService', () {
+  group('ArticleFetch', () {
     late ArticleService articleService;
     late http.Client httpClient;
 
     setUp(() {
       httpClient = MockClient((request) async {
-        final queryParameters = request.url.queryParameters;
-        final page = int.tryParse(queryParameters['page'] ?? '') ?? 1;
-        final query = queryParameters['q'];
 
         final articles = [
           {
-            'headline': {'main': 'Article $page'},
-            'pub_date': '2022-01-0$page',
+            'headline': {'main': 'Article'},
+            'pub_date': '2022-01-0',
           },
         ];
 
@@ -64,11 +63,11 @@ void main() {
 
     // first test here
     test('searchArticles should return a list of articles', () async {
-      final articles = await articleService.searchArticles();
+      final articles = await articleService.fetchArticles();
 
       expect(articles.length, 1);
     });
-
+    
     // second test here
     test('searchArticles should throw an exception on error', () async {
       httpClient = MockClient((request) async {
@@ -77,7 +76,8 @@ void main() {
 
       articleService = ArticleService(httpClient);
 
-      expect(() => articleService.searchArticles(query: 'invalid'), throwsException);
+      expect(() => articleService.fetchArticles(), throwsException);
     });
+    
   });
 }

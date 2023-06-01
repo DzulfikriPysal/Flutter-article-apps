@@ -42,43 +42,6 @@ class _LandingPageState extends State<_LandingPage> {
         });
     }
 
-    Widget buildLocationRow(String label, double? latitude, double? longitude) {
-        return Column(
-            children: <Widget>[
-                Row(
-                    children: <Widget>[
-                        Text(
-                            label,
-                            style: TextStyle(fontSize: 16),
-                            textAlign: TextAlign.center,
-                        ),
-                    ]
-                ),
-                Row(
-                    children: <Widget>[
-                        Text(
-                            latitude != null
-                            ? 'Latitude: $latitude'
-                            : 'Latitude unavailable',
-                            style: TextStyle(fontSize: 16),
-                            textAlign: TextAlign.center,
-                        ),
-                    ]
-                ),
-                Row(
-                    children: <Widget>[
-                        Text(
-                            longitude != null
-                            ? 'Longitude: $longitude'
-                            : 'Longitude unavailable',
-                            style: TextStyle(fontSize: 16),
-                            textAlign: TextAlign.center,
-                        ),
-                    ]
-                ),
-            ],
-        );
-    }
 
   @override
   Widget build(BuildContext context) {
@@ -92,7 +55,7 @@ class _LandingPageState extends State<_LandingPage> {
           padding: const EdgeInsets.all(20.0),
           child: ListView(
             children: <Widget>[
-              buildLocationRow(
+              _locationService.buildLocationRow(
                 "Current user location",
                 _locationService.locationData?.latitude,
                 _locationService.locationData?.longitude,
