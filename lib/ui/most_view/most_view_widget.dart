@@ -3,9 +3,9 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:location/location.dart';
 
-import '../../location_service.dart';
+import '../../service/location_service.dart';
 import '../../model/article.dart';
-import '../../article_service.dart';
+import '../../service/article_service.dart';
 
 class MostView extends StatefulWidget {
   const MostView({Key? key}) : super(key: key);

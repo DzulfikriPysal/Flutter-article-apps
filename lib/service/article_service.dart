@@ -2,7 +2,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
-import 'model/article.dart';
+import '../model/article.dart';
 
 class ArticleService {
   static const String _apiKey = '5Cj5FjH9FGDx4nGawAmiu6XTfUvmK0rN';
@@ -49,6 +49,8 @@ class ArticleService {
     final url = Uri.parse('$_secondBaseUrl?q=$query&page=$page&api-key=$_apiKey');
     final response = await http.get(url);
     if (response.statusCode == 200) {
+      print('Response status code: ${response.statusCode}');
+      print('Response body: ${response.body}');
       final data = jsonDecode(response.body);
       List<Article> articles = [];
       for (var articleData in data['response']['docs']) {

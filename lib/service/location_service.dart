@@ -41,9 +41,6 @@ class LocationService {
   }
 
   Widget buildLocationRow(String label, double? latitude, double? longitude) {
-    String valueText = latitude != null && longitude != null
-        ? 'Latitude: $latitude, \n Longitude: $longitude'
-        : 'Location data unavailable';
 
     return Column(
       children: <Widget>[

@@ -16,6 +16,10 @@ dependencies:
   path:
   location:
   http:
+  flutter_test:
+    sdk: flutter
+  mockito: ^5.0.0-nullsafety.7
+  test:
   
 
 dev_dependencies:

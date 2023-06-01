@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../location_service.dart';
+import '../../service/location_service.dart';
 import '../search_article_view/search_article_view_widget.dart';
 import '../most_view/most_view_widget.dart';
 import 'package:location/location.dart';
@@ -14,7 +14,7 @@ class LandingPage extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: _LandingPage(title: ""),
+      home: _LandingPage(title: "NYT"),
     );
   }
 }
@@ -43,10 +43,6 @@ class _LandingPageState extends State<_LandingPage> {
     }
 
     Widget buildLocationRow(String label, double? latitude, double? longitude) {
-        String valueText = latitude != null && longitude != null
-            ? 'Latitude: $latitude, \n Longitude: $longitude'
-            : 'Location data unavailable';
-
         return Column(
             children: <Widget>[
                 Row(
