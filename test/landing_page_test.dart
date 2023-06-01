@@ -4,13 +4,13 @@ import 'package:location/location.dart';
 import 'package:article_app/service/location_service.dart';
 
 class MockLocationService extends Mock implements LocationService {
-  Future<LocationData?> checkPermissions() async { // when location return latitude and longitude
+  Future<LocationData?> fetchLocationData() async { // when location return latitude and longitude
     return LocationData.fromMap({
-      "latitude": 37.4219983,
-      "longitude": -122.084,
+      "latitude": 2.9221,
+      "longitude": 101.6510,
     });
   }
-  Future<LocationData?> checkPermissions2() async { // when location return null
+  Future<LocationData?> fetchNullLocationData() async { // when location return null
     return null;
   }
 }
@@ -27,7 +27,7 @@ void main() {
     // first test here
     test('Test location data availability', () async {
       // do
-      final locationData = await mockLocationService.checkPermissions();
+      final locationData = await mockLocationService.fetchLocationData();
 
       // test
       expect(locationData, isNotNull);
@@ -36,7 +36,7 @@ void main() {
     // second test here
     test('Test location data availability when unavailable', () async {
       // do
-      final locationData = await mockLocationService.checkPermissions2();
+      final locationData = await mockLocationService.fetchNullLocationData();
 
       // test
       expect(locationData, isNull);
